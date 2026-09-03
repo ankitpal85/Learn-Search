@@ -53,6 +53,20 @@ app.add_middleware(
 )
 
 
+@app.on_event("startup")
+def startup_event():
+    """
+    Pre-warm SentenceTransformer model during boot so user queries never timeout.
+    """
+    print("[STARTUP] Pre-warming embedding model in memory...")
+    try:
+        from embeddings.embedder import get_embed_model
+        get_embed_model()
+        print("[STARTUP] Embedding model pre-warmed and ready!")
+    except Exception as e:
+        print(f"[STARTUP] Warning during pre-warm: {e}")
+
+
 # --- Request Schemas ---
 
 class SearchRequest(BaseModel):

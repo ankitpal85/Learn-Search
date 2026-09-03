@@ -17,6 +17,9 @@ ENV PYTHONUNBUFFERED=1 \
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Pre-download SentenceTransformer model into Docker image to eliminate runtime cold-start timeouts
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
+
 # Copy application code and compiled frontend assets
 COPY . .
 COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
