@@ -40,6 +40,42 @@ AlgoMind AI indexes **3,950+ transcript segments across 315+ DSA lectures** into
 
 ---
 
+## 📸 Live Application Showcase & Interface Tour
+
+<div align="center">
+  <img src="docs/assets/algomind_overview_search.png" alt="AlgoMind AI Neural Search and Dual-Pane Workspace" width="95%" style="border-radius: 10px; border: 1px solid #30363d; box-shadow: 0 8px 24px rgba(0,0,0,0.4);" />
+  <p><em>Figure 1: Dual-Pane Production Workspace — AI Revision Notes & Instant YouTube Timestamp Deep-Linking for "Hashing and Map collision handling".</em></p>
+</div>
+
+### 1️⃣ Dual-Pane Neural Search Workspace (Figure 1)
+- **Top Command Dock & Live Telemetry**: Live heartbeat badge (`3,950 vectors` / `315 lectures`), Theme toggle (Dark / Light), and 1-click **Random Topic** discovery.
+- **Smart Natural Query Bar (`⌘K` / `/`)**: Accepts conceptual and natural language questions (e.g., *"Hashing and Map collision handling"*).
+- **Recommended High-Yield Chips**: Quick access to core placement topics like *LRU Cache O(1)*, *Kadane's Algorithm*, *Cycle Detection*, *Dijkstra's Shortest Path*, and *0/1 Knapsack*.
+- **Left Pane — Structured AI Notes**:
+  - **💡 Core Concept & Intuition**: High-yield 2-sentence breakdown of hash functions, collision theory, and average-case $O(1)$ operations.
+  - **⚡ Approaches & Logic Comparison Matrix**: Structured tables comparing Division Method, Folding, Open Addressing, and Separate Chaining with exact mathematical formulas and space/time complexities.
+  - **Toolbar Controls**: 🔊 **Voice Summary** (browser Web Speech audio reader), 📋 **Copy Notes**, and 📥 **Export to PDF/Markdown**.
+- **Right Pane — Synchronized YouTube Clip Player**:
+  - Embedded player automatically seeks to the exact timestamp segment (`0:04 / 1:00:06`) of Striver's *take U forward* lecture where collisions are explained.
+
+<br/>
+
+<div align="center">
+  <img src="docs/assets/algomind_interview_takeaways.png" alt="AlgoMind AI Key Interview Takeaways and Matched Clips" width="95%" style="border-radius: 10px; border: 1px solid #30363d; box-shadow: 0 8px 24px rgba(0,0,0,0.4);" />
+  <p><em>Figure 2: Key Interview Takeaways & Ranked Semantic Transcript Matches retrieved from Qdrant Vector Cloud.</em></p>
+</div>
+
+### 2️⃣ Key Interview Takeaways & Semantic Video Clips (Figure 2)
+- **🎯 High-Yield Interview Takeaways**:
+  - **Map Selection Strategy**: When to prefer `unordered_map` ($O(1)$ average) vs ordered balanced BST `std::map` ($O(\log N)$) to prevent adversarial Time Limit Exceeded (TLE).
+  - **Collision Resolution Deep-Dive**: Differences between Separate Chaining (linked lists/buckets) vs Open Addressing (linear/quadratic probing, double hashing) and load factor rehashing triggers.
+  - **Edge-Case Mitigations**: How adversarial contest test cases cause worst-case $O(N)$ hash bucket degradation, and how custom hash functions like `splitmix64` prevent hacking.
+- **📑 Matched Video Clips (Vector Search Results)**:
+  - Ranked semantic hits from Qdrant Cloud showing **similarity match scores (`99% Match`, `96% Match`)**.
+  - Direct timestamp intervals allowing the student to jump to specific segments of the 1-hour lecture without manually scrubbing.
+
+---
+
 ## 🚀 Key Engineering Features
 
 - **⚡ Sub-50ms Vector Search**: Powered by `all-MiniLM-L6-v2` dense embeddings (384 dimensions) and Qdrant Cloud HNSW vector indexing.
