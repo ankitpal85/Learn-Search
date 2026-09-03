@@ -60,9 +60,11 @@ def startup_event():
     """
     print("[STARTUP] Pre-warming embedding model in memory...")
     try:
+        import gc
         from embeddings.embedder import get_embed_model
         get_embed_model()
-        print("[STARTUP] Embedding model pre-warmed and ready!")
+        gc.collect()
+        print("[STARTUP] Embedding model pre-warmed and memory reclaimed!")
     except Exception as e:
         print(f"[STARTUP] Warning during pre-warm: {e}")
 
