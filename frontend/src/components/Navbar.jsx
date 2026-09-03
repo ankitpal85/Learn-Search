@@ -1,83 +1,147 @@
 import React from 'react';
-import { Database, Cpu, Sparkles, Command, Dices, ShieldCheck } from 'lucide-react';
+import { 
+  Terminal, 
+  Search, 
+  Dices, 
+  Sun, 
+  Moon, 
+  Cpu, 
+  Layers, 
+  Sparkles,
+  Zap 
+} from 'lucide-react';
 
-export default function Navbar({ stats, onFocusSearch, onRandomTopic }) {
+export default function Navbar({ 
+  stats, 
+  onFocusSearch, 
+  onRandomTopic, 
+  theme, 
+  onToggleTheme 
+}) {
   return (
-    <header className="border-b border-white/[0.08] bg-[#040810]/85 backdrop-blur-2xl px-4 sm:px-8 py-3.5 flex items-center justify-between sticky top-0 z-50 transition-all">
-      {/* Brand & Logo */}
-      <div className="flex items-center gap-3.5">
-        <div className="relative group cursor-pointer">
-          <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-xl blur-sm opacity-70 group-hover:opacity-100 transition duration-300"></div>
-          <div className="relative w-10 h-10 rounded-xl bg-[#08101e] border border-cyan-400/40 flex items-center justify-center font-extrabold text-cyan-400 shadow-inner">
-            <Sparkles className="w-5 h-5 text-cyan-400 animate-pulse" />
+    <header className={`sticky top-0 z-50 w-full border-b backdrop-blur-xl transition-all duration-300 ${
+      theme === 'light'
+        ? 'bg-white/90 border-slate-200 text-slate-900 shadow-sm'
+        : 'bg-[#040810]/85 border-white/[0.08] text-white'
+    }`}>
+      <div className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+        
+        {/* Left: Brand Logo & Title */}
+        <div className="flex items-center gap-3">
+          <div className="relative group cursor-pointer" onClick={onRandomTopic} title="Click to load random topic">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 p-[1px] shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform duration-300">
+              <div className={`w-full h-full rounded-[11px] flex items-center justify-center ${
+                theme === 'light' ? 'bg-slate-100' : 'bg-[#081220]'
+              }`}>
+                <Terminal className={`w-5 h-5 group-hover:rotate-12 transition-transform ${
+                  theme === 'light' ? 'text-sky-600' : 'text-cyan-400'
+                }`} />
+              </div>
+            </div>
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-white dark:border-[#040810] animate-pulse"></div>
+          </div>
+
+          <div>
+            <div className="flex items-center gap-2">
+              <h1 className="font-extrabold text-base sm:text-lg tracking-tight flex items-center gap-1">
+                Algo<span className={`${theme === 'light' ? 'text-sky-600' : 'text-cyan-400'}`}>Mind</span>
+              </h1>
+              <span className={`hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold border ${
+                theme === 'light'
+                  ? 'bg-sky-500/10 text-sky-700 border-sky-500/20'
+                  : 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20'
+              }`}>
+                <Sparkles className="w-2.5 h-2.5" /> AI v2.4
+              </span>
+            </div>
+            <p className={`text-[11px] hidden md:block font-medium ${
+              theme === 'light' ? 'text-slate-500' : 'text-slate-400'
+            }`}>
+              Striver's A2Z DSA • Qdrant Vector Cloud & Groq LLM
+            </p>
           </div>
         </div>
 
-        <div className="flex flex-col">
-          <div className="flex items-center gap-2">
-            <span className="font-extrabold text-white text-base sm:text-xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent">
-              DSA<span className="text-cyan-400">.MATRIX</span>
-            </span>
-            <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-bold tracking-wider shadow-sm shadow-cyan-500/20">
-              NEURAL RAG
-            </span>
-          </div>
-          <span className="text-[11px] text-slate-400 font-medium hidden sm:flex items-center gap-1.5">
-            <ShieldCheck className="w-3 h-3 text-emerald-400 inline" />
-            <span>Striver A2Z Video Vector Intelligence</span>
-          </span>
-        </div>
-      </div>
-
-      {/* Right Controls & Telemetry */}
-      <div className="flex items-center gap-2 sm:gap-3">
-        {/* Random Topic Button */}
-        <button
-          type="button"
-          onClick={onRandomTopic}
-          className="hidden md:flex items-center gap-1.5 text-xs text-purple-300 hover:text-purple-100 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 hover:border-purple-400/50 px-3 py-1.5 rounded-xl transition-all cursor-pointer font-medium shadow-sm shadow-purple-500/10"
-          title="Pick a random DSA challenge"
-        >
-          <Dices className="w-3.5 h-3.5 text-purple-400" />
-          <span>Surprise Problem</span>
-        </button>
-
-        {/* Quick Search Shortcut */}
-        <button
-          type="button"
-          onClick={onFocusSearch}
-          className="hidden sm:flex items-center gap-1.5 text-xs text-slate-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-cyan-500/40 px-3 py-1.5 rounded-xl transition-all cursor-pointer font-mono shadow-inner"
-          aria-label="Focus search input"
-          title="Press / or Ctrl+K to search"
-        >
-          <Command className="w-3.5 h-3.5 text-cyan-400" />
-          <span className="hidden lg:inline text-slate-400">Search</span>
-          <kbd className="bg-slate-900 text-cyan-300 px-1.5 py-0.5 rounded text-[10px] border border-cyan-500/20 font-bold">
-            ⌘K
-          </kbd>
-        </button>
-
-        {/* LLM Engine */}
-        <div className="hidden xl:flex items-center gap-1.5 text-xs text-slate-300 font-mono bg-indigo-500/10 px-3 py-1.5 rounded-xl border border-indigo-500/20">
-          <Cpu className="w-3.5 h-3.5 text-indigo-400" />
-          <span className="text-indigo-200">Groq LLM</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
-        </div>
-
-        {/* Live Vector Points Counter */}
-        <div className="flex items-center gap-2 text-xs font-mono bg-[#081220] px-3.5 py-1.5 rounded-xl border border-cyan-500/30 shadow-sm shadow-cyan-500/10">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
-          </span>
-          <div className="flex items-center gap-1.5">
-            <Database className="w-3.5 h-3.5 text-cyan-400 hidden xs:inline" />
-            <span className="font-bold text-white tracking-wide">
+        {/* Center: System Telemetry Pill */}
+        <div className={`hidden lg:flex items-center gap-3 px-3.5 py-1.5 rounded-full border text-xs font-mono shadow-inner ${
+          theme === 'light'
+            ? 'bg-slate-100/90 border-slate-200 text-slate-700'
+            : 'bg-[#081220]/90 border-white/[0.08] text-slate-300'
+        }`}>
+          <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
+            <Cpu className="w-3.5 h-3.5" />
+            <span className="font-bold">
               {(stats?.total_points || 3950).toLocaleString()}
             </span>
-            <span className="text-slate-400 text-[11px] hidden sm:inline">vectors</span>
+            <span className="opacity-75">vectors</span>
+          </div>
+          <span className="opacity-40">•</span>
+          <div className="flex items-center gap-1.5 text-purple-600 dark:text-purple-400">
+            <Layers className="w-3.5 h-3.5" />
+            <span className="font-bold">315</span>
+            <span className="opacity-75">lectures</span>
           </div>
         </div>
+
+        {/* Right: Action Buttons (Search Trigger, Random Topic, Light/Dark Toggle) */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          
+          {/* Quick Search Trigger */}
+          <button
+            onClick={onFocusSearch}
+            className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-medium transition-all cursor-pointer ${
+              theme === 'light'
+                ? 'bg-slate-100 hover:bg-slate-200/80 border-slate-200 text-slate-700'
+                : 'bg-[#081220] hover:bg-[#0e1c30] border-white/[0.1] text-slate-300 hover:border-cyan-500/40'
+            }`}
+            title="Focus search input (Shortcut: / or ⌘K)"
+          >
+            <Search className={`w-3.5 h-3.5 ${theme === 'light' ? 'text-sky-600' : 'text-cyan-400'}`} />
+            <span>Search</span>
+            <kbd className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-black/5 dark:bg-white/[0.08] opacity-70">
+              ⌘K
+            </kbd>
+          </button>
+
+          {/* Random Topic Generator */}
+          <button
+            onClick={onRandomTopic}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold transition-all cursor-pointer ${
+              theme === 'light'
+                ? 'bg-sky-500/10 hover:bg-sky-500/20 border-sky-500/20 text-sky-700'
+                : 'bg-gradient-to-r from-cyan-500/10 to-purple-500/10 hover:from-cyan-500/20 hover:to-purple-500/20 border-cyan-500/30 text-cyan-300'
+            }`}
+            title="Explore a random DSA topic"
+          >
+            <Dices className={`w-3.5 h-3.5 ${theme === 'light' ? 'text-sky-600' : 'text-cyan-400'}`} />
+            <span className="hidden sm:inline">Random Topic</span>
+          </button>
+
+          {/* Dark vs Light Theme Toggle Button */}
+          <button
+            onClick={onToggleTheme}
+            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg border text-xs font-bold transition-all cursor-pointer shadow-md ${
+              theme === 'light'
+                ? 'bg-amber-400/20 border-amber-400/40 text-amber-900 hover:bg-amber-400/30 shadow-amber-500/10'
+                : 'bg-cyan-500/15 border-cyan-500/40 text-cyan-300 hover:bg-cyan-500/25 shadow-cyan-500/15'
+            }`}
+            title={`Switch Theme Mode (Current: ${theme === 'light' ? 'Light Mode' : 'Dark Mode'})`}
+          >
+            {theme === 'light' ? (
+              <>
+                <Sun className="w-4 h-4 text-amber-600 animate-spin-slow" />
+                <span className="font-mono">Light Mode</span>
+              </>
+            ) : (
+              <>
+                <Moon className="w-4 h-4 text-cyan-400" />
+                <span className="font-mono">Dark Mode</span>
+              </>
+            )}
+          </button>
+
+        </div>
+
       </div>
     </header>
   );

@@ -1,56 +1,67 @@
 import React from 'react';
 
-export function NotesSkeleton() {
+export default function SkeletonLoader({ type = 'notes', theme }) {
+  const isLight = theme === 'light';
+
+  if (type === 'clips') {
+    return (
+      <div className={`w-full rounded-2xl border p-4 space-y-3 animate-shimmer ${
+        isLight ? 'bg-white border-slate-300' : 'bg-[#081220]/80 border-white/[0.08]'
+      }`}>
+        <div className={`h-4 rounded-md w-1/3 ${isLight ? 'bg-slate-200' : 'bg-white/[0.08]'}`}></div>
+        <div className="space-y-2.5">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className={`p-3.5 rounded-xl border space-y-2 ${
+              isLight ? 'bg-slate-100 border-slate-200' : 'bg-[#040810]/60 border-white/[0.05]'
+            }`}>
+              <div className={`h-4 rounded w-3/4 ${isLight ? 'bg-slate-300' : 'bg-white/[0.08]'}`}></div>
+              <div className={`h-3 rounded w-full ${isLight ? 'bg-slate-200' : 'bg-white/[0.05]'}`}></div>
+              <div className={`h-3 rounded w-1/2 ${isLight ? 'bg-slate-200' : 'bg-white/[0.05]'}`}></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="py-4 flex flex-col gap-6 animate-pulse">
-      {/* Title skeleton */}
-      <div className="flex items-center gap-3">
-        <div className="w-6 h-6 rounded-md bg-white/[0.06]"></div>
-        <div className="h-5 w-48 bg-white/[0.06] rounded-md"></div>
+    <div className={`w-full rounded-2xl border p-6 sm:p-8 space-y-6 animate-shimmer shadow-2xl ${
+      isLight ? 'bg-white border-slate-300' : 'bg-[#081220]/90 backdrop-blur-xl border-white/[0.12]'
+    }`}>
+      {/* Header skeleton */}
+      <div className={`flex items-center justify-between border-b pb-4 ${
+        isLight ? 'border-slate-200' : 'border-white/[0.08]'
+      }`}>
+        <div className="flex items-center gap-3">
+          <div className={`w-6 h-6 rounded-lg ${isLight ? 'bg-sky-200' : 'bg-cyan-500/20'}`}></div>
+          <div className={`h-6 rounded-md w-48 ${isLight ? 'bg-slate-200' : 'bg-white/[0.1]'}`}></div>
+        </div>
+        <div className={`h-8 rounded-lg w-28 ${isLight ? 'bg-slate-200' : 'bg-white/[0.06]'}`}></div>
       </div>
 
-      {/* Paragraph skeleton */}
-      <div className="flex flex-col gap-2.5">
-        <div className="h-4 w-full bg-white/[0.04] rounded"></div>
-        <div className="h-4 w-11/12 bg-white/[0.04] rounded"></div>
-        <div className="h-4 w-4/5 bg-white/[0.04] rounded"></div>
-      </div>
-
-      {/* Code block skeleton */}
-      <div className="rounded-xl border border-white/[0.06] bg-[#020408]/60 p-4 flex flex-col gap-2">
-        <div className="h-3.5 w-24 bg-white/[0.08] rounded"></div>
-        <div className="h-3.5 w-3/4 bg-white/[0.04] rounded"></div>
-        <div className="h-3.5 w-5/6 bg-white/[0.04] rounded"></div>
-        <div className="h-3.5 w-1/2 bg-white/[0.04] rounded"></div>
+      {/* Body paragraphs skeleton */}
+      <div className="space-y-3">
+        <div className={`h-4 rounded w-full ${isLight ? 'bg-slate-200' : 'bg-white/[0.08]'}`}></div>
+        <div className={`h-4 rounded w-11/12 ${isLight ? 'bg-slate-200' : 'bg-white/[0.08]'}`}></div>
+        <div className={`h-4 rounded w-4/5 ${isLight ? 'bg-slate-200' : 'bg-white/[0.08]'}`}></div>
       </div>
 
       {/* Table skeleton */}
-      <div className="rounded-lg border border-white/[0.06] overflow-hidden">
-        <div className="h-8 bg-white/[0.06] w-full"></div>
-        <div className="h-7 bg-white/[0.02] border-t border-white/[0.04] w-full"></div>
-        <div className="h-7 bg-white/[0.02] border-t border-white/[0.04] w-full"></div>
+      <div className={`my-4 p-4 rounded-xl border space-y-2 ${
+        isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#040810]/80 border-white/[0.08]'
+      }`}>
+        <div className={`h-4 rounded w-1/4 ${isLight ? 'bg-sky-200' : 'bg-cyan-500/20'}`}></div>
+        <div className={`h-10 rounded w-full ${isLight ? 'bg-slate-200' : 'bg-white/[0.05]'}`}></div>
+        <div className={`h-10 rounded w-full ${isLight ? 'bg-slate-200' : 'bg-white/[0.05]'}`}></div>
       </div>
-    </div>
-  );
-}
 
-export function ClipsSkeleton() {
-  return (
-    <div className="flex flex-col gap-2.5 animate-pulse">
-      {[1, 2, 3].map((i) => (
-        <div key={i} className="p-3.5 rounded-xl border border-white/[0.04] bg-slate-900/30 flex flex-col gap-2">
-          <div className="flex items-center justify-between">
-            <div className="h-3.5 w-36 bg-white/[0.06] rounded"></div>
-            <div className="h-3.5 w-12 bg-white/[0.06] rounded"></div>
-          </div>
-          <div className="h-3 w-full bg-white/[0.03] rounded"></div>
-          <div className="h-3 w-4/5 bg-white/[0.03] rounded"></div>
-          <div className="flex justify-between items-center pt-2">
-            <div className="h-3 w-20 bg-white/[0.04] rounded"></div>
-            <div className="h-3 w-12 bg-white/[0.04] rounded"></div>
-          </div>
-        </div>
-      ))}
+      {/* Code block skeleton */}
+      <div className={`rounded-xl border p-4 space-y-2 ${
+        isLight ? 'bg-slate-900 border-slate-700' : 'bg-[#03060c] border-white/[0.08]'
+      }`}>
+        <div className="h-4 bg-slate-700 rounded w-1/6"></div>
+        <div className="h-24 bg-slate-800 rounded w-full"></div>
+      </div>
     </div>
   );
 }

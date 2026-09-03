@@ -1,85 +1,101 @@
 import React from 'react';
-import { ExternalLink, Play, MonitorPlay } from 'lucide-react';
+import { Video, Play, ExternalLink, Clock, Sparkles } from 'lucide-react';
 
-export default function VideoPlayer({ activeVideo, videoPlayerRef }) {
-  const getEmbedUrl = (video) => {
-    if (!video) return '';
-    const videoId = video.video_id;
-    const startSec = Math.floor(video.start || 0);
-    return `https://www.youtube.com/embed/${videoId}?start=${startSec}&autoplay=1&rel=0`;
-  };
+export default function VideoPlayer({ activeVideo, videoPlayerRef, theme }) {
+  const isLight = theme === 'light';
+
+  if (!activeVideo) {
+    return (
+      <div 
+        ref={videoPlayerRef}
+        className={`w-full rounded-2xl border p-8 text-center flex flex-col items-center justify-center gap-3 min-h-[260px] ${
+          isLight
+            ? 'bg-white border-slate-300 shadow-lg'
+            : 'bg-[#081220]/80 border-white/[0.08]'
+        }`}
+      >
+        <div className={`w-12 h-12 rounded-xl border flex items-center justify-center ${
+          isLight ? 'bg-purple-100 border-purple-300 text-purple-700' : 'bg-purple-500/10 border-purple-500/20 text-purple-400'
+        }`}>
+          <Video className="w-6 h-6" />
+        </div>
+        <div className="space-y-1">
+          <h4 className={`text-sm font-bold ${isLight ? 'text-slate-900' : 'text-white'}`}>No Video Clip Selected</h4>
+          <p className={`text-xs ${isLight ? 'text-slate-600' : 'text-slate-400'}`}>
+            Search a DSA topic to auto-retrieve matched YouTube video clips.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const { video_id, start_time, title, channel_title } = activeVideo;
+  const embedUrl = `https://www.youtube-nocookie.com/embed/${video_id}?start=${start_time || 0}&autoplay=1&rel=0`;
+  const formattedTime = `${Math.floor((start_time || 0) / 60)}m ${(start_time || 0) % 60}s`;
 
   return (
-    <div ref={videoPlayerRef} className="neural-card p-4 sm:p-5 flex flex-col gap-3.5 relative">
-      {/* Active Video Player Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span>
-          </span>
-          <span className="text-xs font-mono font-bold text-slate-200 flex items-center gap-1.5">
-            <MonitorPlay className="w-4 h-4 text-cyan-400" />
-            {activeVideo ? (
-              <span className="text-cyan-300 bg-cyan-500/10 px-2 py-0.5 rounded-md border border-cyan-500/20">
-                {activeVideo.start_fmt} - {activeVideo.end_fmt}
-              </span>
-            ) : (
-              'Lecture Preview'
-            )}
+    <div 
+      ref={videoPlayerRef}
+      className={`w-full rounded-2xl border overflow-hidden shadow-2xl transition-all duration-300 ${
+        isLight
+          ? 'bg-white border-slate-300 shadow-slate-200/80'
+          : 'bg-[#081220]/90 backdrop-blur-xl border-white/[0.12]'
+      }`}
+    >
+      {/* Active Clip Header & Timestamp Banner */}
+      <div className={`px-4 py-3 border-b flex items-center justify-between gap-2 ${
+        isLight ? 'bg-slate-100 border-slate-200' : 'bg-[#040810]/80 border-white/[0.08]'
+      }`}>
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+          <span className={`text-xs font-mono font-bold tracking-tight truncate ${
+            isLight ? 'text-slate-900' : 'text-slate-200'
+          }`}>
+            {title || 'Lecture Clip'}
           </span>
         </div>
 
-        {activeVideo?.youtube_url && (
+        <div className="flex items-center gap-2 shrink-0">
+          <span className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold border ${
+            isLight
+              ? 'bg-sky-100 text-sky-800 border-sky-300'
+              : 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30'
+          }`}>
+            <Clock className="w-3 h-3" />
+            <span>{formattedTime}</span>
+          </span>
           <a
-            href={activeVideo.youtube_url}
+            href={`https://youtu.be/${video_id}?t=${start_time || 0}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-cyan-400 hover:text-cyan-200 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 px-2.5 py-1 rounded-lg flex items-center gap-1.5 font-mono transition-all cursor-pointer shadow-sm shadow-cyan-500/10"
-            title="Open lecture on YouTube at exact timestamp"
+            className={`p-1 rounded-md transition-colors ${
+              isLight ? 'text-slate-600 hover:bg-slate-200' : 'text-slate-400 hover:text-white hover:bg-white/[0.08]'
+            }`}
+            title="Open on YouTube"
           >
-            <span>Open YouTube</span>
-            <ExternalLink className="w-3 h-3" />
+            <ExternalLink className="w-3.5 h-3.5" />
           </a>
-        )}
-      </div>
-
-      {/* Embedded Frame with Ambient Glow */}
-      <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-black/90 border border-white/[0.1] shadow-2xl flex items-center justify-center group">
-        {activeVideo ? (
-          <iframe
-            src={getEmbedUrl(activeVideo)}
-            title={activeVideo.title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="w-full h-full border-none"
-          ></iframe>
-        ) : (
-          <div className="flex flex-col items-center justify-center gap-2.5 text-slate-500 text-xs text-center p-6">
-            <div className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-slate-400">
-              <Play className="w-6 h-6 ml-0.5 text-slate-400" />
-            </div>
-            <span className="max-w-xs font-medium text-slate-400">
-              Select any timestamped video clip from below to jump straight to the explanation
-            </span>
-          </div>
-        )}
-      </div>
-
-      {/* Video Title and Context */}
-      {activeVideo && (
-        <div className="flex flex-col gap-1 bg-white/[0.02] p-2.5 rounded-xl border border-white/[0.04]">
-          <div className="text-xs sm:text-sm text-slate-100 font-bold leading-snug line-clamp-2">
-            {activeVideo.title}
-          </div>
-          <div className="flex items-center justify-between text-[11px] font-mono text-slate-400">
-            <span className="text-cyan-400/90 font-medium">
-              Timestamp: {activeVideo.start_fmt} → {activeVideo.end_fmt}
-            </span>
-            <span className="text-slate-500">Striver's DSA Lecture</span>
-          </div>
         </div>
-      )}
+      </div>
+
+      {/* Embedded Responsive YouTube Player */}
+      <div className="relative w-full aspect-video bg-black">
+        <iframe
+          src={embedUrl}
+          title={title || 'YouTube video player'}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          className="absolute inset-0 w-full h-full border-0"
+        />
+      </div>
+
+      {/* Channel info footer */}
+      <div className={`px-4 py-2.5 text-xs font-mono flex items-center justify-between ${
+        isLight ? 'bg-slate-50 text-slate-700 border-t border-slate-200' : 'bg-[#040810]/60 text-slate-400'
+      }`}>
+        <span>Channel: <strong className={isLight ? 'text-slate-900' : 'text-slate-200'}>{channel_title || 'take U forward'}</strong></span>
+        <span className="text-emerald-600 dark:text-emerald-400 font-bold">Deep-Linked Timestamp</span>
+      </div>
     </div>
   );
 }

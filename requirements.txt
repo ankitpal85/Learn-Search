@@ -1,7 +1,18 @@
+# Web Framework & Server
+fastapi>=0.110.0
+uvicorn[standard]>=0.28.0
+pydantic>=2.0.0
+
+# LLM & AI Clients
+groq>=0.5.0
+qdrant-client>=1.8.0
+sentence-transformers>=2.5.0
+
+# Video & Transcript Extraction
 yt-dlp
 youtube-transcript-api
-qdrant-client
-sentence-transformers
-python-dotenv
-colorama
-tqdm
+
+# Utilities
+python-dotenv>=1.0.0
+colorama>=0.4.6
+tqdm>=4.66.0

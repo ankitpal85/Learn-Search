@@ -37,7 +37,7 @@ Crisp 2-3 sentence summary of what the technique is and why it is used.
 - **Optimal Approach**: Step-by-step logic and intuition.
 
 ### 💻 Optimal Code Implementation
-Provide clean, idiomatic, well-commented code (C++ or Python).
+Provide clean, idiomatic, well-commented **C++** code (Striver's primary language). Optionally, you may also provide a Python code block below it.
 
 ### 📊 Complexity Analysis
 | Metric | Complexity | Explanation |

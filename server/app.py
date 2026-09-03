@@ -25,6 +25,11 @@ try:
 except Exception:
     pass
 
+# Ensure project root is in python path
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 # Modular Imports
 from config.settings import COLLECTION_NAME, EMBED_MODEL_NAME, GROQ_MODEL_NAME
 from vectordb.client import get_collection_stats
@@ -134,6 +139,31 @@ def ask_api(req: AskRequest):
         raise HTTPException(status_code=500, detail=f"Groq LLM Error: {str(e)}")
 
 
+# --- Static Frontend Serving for Production Deployment ---
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+DIST_DIR = ROOT_DIR / "frontend" / "dist"
+
+if DIST_DIR.exists():
+    app.mount("/assets", StaticFiles(directory=str(DIST_DIR / "assets")), name="assets")
+
+    @app.get("/")
+    def serve_root():
+        return FileResponse(DIST_DIR / "index.html")
+
+    @app.get("/{full_path:path}")
+    def serve_spa(full_path: str):
+        if full_path.startswith("api/"):
+            raise HTTPException(status_code=404, detail="API Endpoint Not Found")
+        file_path = DIST_DIR / full_path
+        if file_path.exists() and file_path.is_file():
+            return FileResponse(file_path)
+        return FileResponse(DIST_DIR / "index.html")
+
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("server.app:app", host="127.0.0.1", port=8000, reload=True)
+    import os
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("server.app:app", host="0.0.0.0", port=port, reload=True)

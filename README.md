@@ -1,4 +1,14 @@
-# DSA Neural Search & AI Revision Platform ⚡
+---
+title: AlgoMind AI
+emoji: ⚡
+colorFrom: purple
+colorTo: blue
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
+# AlgoMind AI ⚡ — Neural Vector Search & DSA Revision Platform
 
 A high-performance **Vector Search & LLM-Powered RAG Platform** for Striver's A2Z DSA Course. Features semantic timestamp deep-linking into YouTube lecture clips and instant structured revision notes powered by Qdrant Vector Cloud and Groq LLM.
 

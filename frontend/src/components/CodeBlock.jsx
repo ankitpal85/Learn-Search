@@ -1,71 +1,62 @@
 import React, { useState } from 'react';
-import { Check, Copy, Terminal } from 'lucide-react';
+import { Copy, Check, Terminal, Code2 } from 'lucide-react';
 
-export default function CodeBlock({ children, className, ...props }) {
+export default function CodeBlock({ language, value, theme }) {
   const [copied, setCopied] = useState(false);
-  const match = /language-(\w+)/.exec(className || '');
-  const language = match ? match[1] : '';
-  const codeContent = String(children).replace(/\n$/, '');
+  const isLight = theme === 'light';
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(codeContent);
+    navigator.clipboard.writeText(value);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // If inline code
-  if (!className && !String(children).includes('\n')) {
-    return (
-      <code className="bg-cyan-500/10 text-cyan-300 px-1.5 py-0.5 rounded-md border border-cyan-500/25 font-mono text-[0.875em]" {...props}>
-        {children}
-      </code>
-    );
-  }
-
   return (
-    <div className="relative my-4 rounded-xl overflow-hidden border border-white/[0.1] bg-[#02050b] shadow-2xl group">
+    <div className={`my-5 rounded-xl border overflow-hidden shadow-xl group dark-code-block ${
+      isLight
+        ? 'bg-slate-900 border-slate-700 text-slate-100'
+        : 'bg-[#03060c] border-white/[0.12] text-slate-200'
+    }`}>
+      
       {/* Code Header Bar */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-[#08101e] border-b border-white/[0.08] text-xs">
-        <div className="flex items-center gap-3">
-          {/* Terminal Dots */}
-          <div className="flex items-center gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-rose-500/80"></div>
-            <div className="w-2.5 h-2.5 rounded-full bg-amber-500/80"></div>
-            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></div>
-          </div>
-
-          <div className="flex items-center gap-1.5 text-slate-300 font-mono">
-            <Terminal className="w-3.5 h-3.5 text-cyan-400" />
-            <span className="text-[11px] uppercase tracking-wider font-bold text-cyan-300">
-              {language || 'cpp / python'}
-            </span>
-          </div>
+      <div className={`flex items-center justify-between px-4 py-2.5 border-b text-xs font-mono select-none ${
+        isLight
+          ? 'bg-slate-800 border-slate-700 text-sky-400'
+          : 'bg-[#081220] border-white/[0.08] text-cyan-400'
+      }`}>
+        <div className="flex items-center gap-2 font-bold tracking-wider">
+          <Terminal className="w-4 h-4 text-sky-400 shrink-0" />
+          <span className="uppercase text-slate-200">
+            {language ? language : 'code'}
+          </span>
         </div>
 
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/[0.05] hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-300 border border-white/[0.08] hover:border-cyan-500/40 transition-all cursor-pointer font-mono text-[11px]"
-          title="Copy code snippet"
-          aria-label="Copy code snippet"
+          className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-white/10 hover:bg-white/20 text-slate-200 transition-all cursor-pointer border border-white/10 whitespace-nowrap shrink-0"
+          title="Copy Code"
         >
           {copied ? (
             <>
               <Check className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="text-emerald-400 font-semibold">Copied!</span>
+              <span className="text-emerald-400 font-semibold text-[11px] whitespace-nowrap">Copied</span>
             </>
           ) : (
             <>
-              <Copy className="w-3.5 h-3.5 text-slate-400" />
-              <span>Copy Code</span>
+              <Copy className="w-3.5 h-3.5 opacity-70" />
+              <span className="text-[11px] whitespace-nowrap">Copy Code</span>
             </>
           )}
         </button>
       </div>
 
-      {/* Code Content */}
-      <pre className="p-4 sm:p-5 overflow-x-auto text-[13px] sm:text-[13.5px] font-mono text-slate-100 leading-relaxed no-scrollbar m-0 bg-[#02050b]">
-        <code>{codeContent}</code>
-      </pre>
+      {/* Code Snippet Box */}
+      <div className="p-4 overflow-x-auto text-xs sm:text-sm font-mono leading-relaxed bg-[#03060c] text-slate-100 selection:bg-cyan-500/30">
+        <pre className="m-0 bg-transparent text-slate-100 p-0 border-0">
+          <code className="bg-transparent text-slate-100 p-0 border-0">{value}</code>
+        </pre>
+      </div>
+
     </div>
   );
 }
