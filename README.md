@@ -5,6 +5,7 @@
 
 *Semantic Video Timestamp Deep-Linking & Instant AI Revision Guides for Striver's A2Z DSA Course*
 
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-algomind--ai--iz0t.onrender.com-00C7B7?style=for-the-badge&logo=render&logoColor=white)](https://algomind-ai-iz0t.onrender.com)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![React](https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev)
 [![Qdrant Cloud](https://img.shields.io/badge/Qdrant_Vector_DB-Cloud_Cluster-DC2626?style=for-the-badge&logo=qdrant&logoColor=white)](https://qdrant.tech)
@@ -16,7 +17,11 @@
 
 <br/>
 
-**[Explore Live App](https://github.com/ankitpal85/Learn-Search)** • **[API Documentation](#-api-endpoints-reference)** • **[System Architecture](#-system-architecture)** • **[Quickstart](#-quick-start)**
+### 🌐 **[👉 CLICK HERE TO OPEN LIVE APPLICATION 👈](https://algomind-ai-iz0t.onrender.com)**
+
+<br/>
+
+**[🚀 Live Demo](https://algomind-ai-iz0t.onrender.com)** • **[API Documentation](#-api-endpoints-reference)** • **[System Architecture](#-system-architecture)** • **[Quickstart](#-quick-start)**
 
 </div>
 

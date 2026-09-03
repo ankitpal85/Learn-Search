@@ -148,7 +148,7 @@ DIST_DIR = ROOT_DIR / "frontend" / "dist"
 if DIST_DIR.exists():
     app.mount("/assets", StaticFiles(directory=str(DIST_DIR / "assets")), name="assets")
 
-    @app.get("/")
+    @app.api_route("/", methods=["GET", "HEAD"])
     def serve_root():
         return FileResponse(DIST_DIR / "index.html")
 
